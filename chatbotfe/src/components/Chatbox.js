@@ -15,7 +15,9 @@ export default function Chatbox() {
 
     setQuesAns([...quesAns, { role: "system", message: "loading..." }]);
     setPrompt("");
-    const { data } = await axios.post("/api", { prompt });
+    const { data } = await axios.post("https://chatbotbe.onrender.com//api", {
+      prompt,
+    });
     setQuesAns([
       ...quesAns,
       { role: "User", message: prompt },

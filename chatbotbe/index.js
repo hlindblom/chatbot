@@ -1,6 +1,7 @@
 const express = require("express");
 require("dotenv").config();
 const app = express();
+const cors = require("cors");
 const PORT = process.env.PORT || 8080;
 const { Configuration, OpenAIApi } = require("openai");
 const config = new Configuration({
@@ -9,6 +10,7 @@ const config = new Configuration({
 });
 const openai = new OpenAIApi(config);
 
+app.use(cors());
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 
