@@ -15,7 +15,7 @@ export default function Chatbox() {
 
     setQuesAns([...quesAns, { role: "system", message: "loading..." }]);
     setPrompt("");
-    const { data } = await axios.post("https://chatbotbe.onrender.com//api", {
+    const { data } = await axios.post("https://chatbotbe.onrender.com/api", {
       prompt,
     });
     setQuesAns([
@@ -31,12 +31,17 @@ export default function Chatbox() {
         <div className="card-text">
           <div
             id={"chat-text"}
-            className="overflow-auto m-3 p-3 rounded text-info bg-dark"
+            className="overflow-auto m-3 p-3 rounded bg-dark"
             style={{ height: "25rem" }}
           >
             {quesAns &&
               quesAns.map((text, i) => (
-                <p key={i}>{text.role + ": " + text.message}</p>
+                <p
+                  className={text.role === "Bot" ? "text-info" : "text-white"}
+                  key={i}
+                >
+                  {text.role + ": " + text.message}
+                </p>
               ))}
           </div>
           <form onSubmit={handleSubmit}>
