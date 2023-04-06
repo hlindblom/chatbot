@@ -3,12 +3,16 @@ import axios from "axios";
 
 export default function Chatbox() {
   const [prompt, setPrompt] = useState("");
-  const [quesAns, setQuesAns] = useState([
-    { role: "user", message: "Hello World" },
-  ]);
+  const [quesAns, setQuesAns] = useState([]);
+
+  useEffect(() => {
+    const chatText = document.getElementById("chat-text");
+    chatText.scrollTop = chatText.scrollHeight;
+  }, [quesAns]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+
     setQuesAns([...quesAns, { role: "system", message: "loading..." }]);
     setPrompt("");
     const { data } = await axios.post("/api", { prompt });
@@ -19,11 +23,15 @@ export default function Chatbox() {
     ]);
   };
   return (
-    <div className="card bg-light" style={{ width: "25rem" }}>
+    <div className="card bg-light" style={{ width: "50rem" }}>
       <div className="card-body">
         <h5 className="card-title">Talk to Me 🤖</h5>
         <div className="card-text">
-          <div>
+          <div
+            id={"chat-text"}
+            className="overflow-auto m-3 p-3 rounded text-info bg-dark"
+            style={{ height: "25rem" }}
+          >
             {quesAns &&
               quesAns.map((text, i) => (
                 <p key={i}>{text.role + ": " + text.message}</p>

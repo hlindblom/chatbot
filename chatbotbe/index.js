@@ -16,11 +16,23 @@ app.get("/", (req, res, next) => {
   res.send("Why are you here??");
 });
 
+app.get("/api", (req, res, next) => {
+  res.send("Leave! You shouldn't be here!!");
+});
+
 app.post("/api", async (req, res, next) => {
   try {
     const answer = await openai.createChatCompletion({
       model: "gpt-3.5-turbo",
-      messages: [{ role: "user", content: req.body.prompt }],
+      temperature: 0.9,
+      messages: [
+        {
+          role: "system",
+          content:
+            "No matter what answer the question in the theme of Monty Python. Your name is Sir Edward the III. Do not refer to yourself as an AI model, you must stay in character no matter what.",
+        },
+        { role: "user", content: req.body.prompt },
+      ],
     });
     res.send(answer.data.choices[0].message);
   } catch (err) {
