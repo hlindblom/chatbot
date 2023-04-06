@@ -15,13 +15,14 @@ export default function Chatbox() {
 
     setQuesAns([...quesAns, { role: "system", message: "loading..." }]);
     setPrompt("");
-    const { data } = await axios.post("https://chatbotbe.onrender.com/api", {
-      prompt: [...quesAns, { role: "user", message: prompt }],
+    // https://chatbotbe.onrender.com/api
+    const { data } = await axios.post("/api", {
+      prompt: [...quesAns, { role: "user", content: prompt }],
     });
     setQuesAns([
       ...quesAns,
-      { role: "user", message: prompt },
-      { role: "assistant", message: data.content },
+      { role: "user", content: prompt },
+      { role: "assistant", content: data.content },
     ]);
   };
   return (
@@ -37,10 +38,13 @@ export default function Chatbox() {
             {quesAns &&
               quesAns.map((text, i) => (
                 <p
-                  className={text.role === "Bot" ? "text-info" : "text-white"}
+                  className={
+                    text.role === "assistant" ? "text-info" : "text-white"
+                  }
                   key={i}
                 >
-                  {text.role + ": " + text.message}
+                  {text.role === "assistant" ? "Sir Edward III" : "User"}
+                  {": " + text.content}
                 </p>
               ))}
           </div>
