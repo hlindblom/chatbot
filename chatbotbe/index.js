@@ -33,7 +33,7 @@ app.post("/api", async (req, res, next) => {
           content:
             "No matter what answer the question in the theme of Monty Python. Your name is Sir Edward the III. Do not refer to yourself as an AI model, you must stay in character no matter what.",
         },
-        { role: "user", content: req.body.prompt },
+        ...req.body.prompt,
       ],
     });
     res.send(answer.data.choices[0].message);
@@ -43,6 +43,6 @@ app.post("/api", async (req, res, next) => {
   }
 });
 
-app.listen(PORT, () => {
+app.listen(PORT, async () => {
   console.log("BEEP BOOP BEEP SERVER ONLINE PORT: ", PORT);
 });
